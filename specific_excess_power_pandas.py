@@ -222,18 +222,11 @@ def climb_angle_std(
 #   Rename your variables to match your use (use find/replace in your editor)
 # =============================================================================
 
-df = pd.read_excel(
-    "F16_LA1.xlsx"
-)  # read the main xlsx file and create dataframe
-
 # select the rows of 1st Level Accel and store in a new data frame
-df_10k = df[3950:6400].reset_index()
-
-# select the rows of 2nd Level Accel and store in a new data frame
-df_20k = df[8550:11270].reset_index()
-
-# select the rows of 2nd Level Accel and store in a new data frame
-df_30k = df[14050:16440].reset_index()
+df_500 = pd.read_excel("level_accel_500_clean.xlsx")
+df_10k = pd.read_excel("level_accel_10k_clean.xlsx")
+df_20k = pd.read_excel("level_accel_20k_clean.xlsx")
+df_30k = pd.read_excel("level_accel_30k_clean.xlsx")
 
 # =============================================================================
 # Compute the SEP from CAS and Altitude
@@ -242,51 +235,71 @@ df_30k = df[14050:16440].reset_index()
 
 # Use .apply() on a column; provide it to a function w/ a single input argument
 
+df_500["ASL_m"] = df_500["ASL"].apply(ft2meters)
 df_10k["ASL_m"] = df_10k["ASL"].apply(ft2meters)
 df_20k["ASL_m"] = df_20k["ASL"].apply(ft2meters)
 df_30k["ASL_m"] = df_30k["ASL"].apply(ft2meters)
 
+df_500["IAS_mps"] = df_500["IAS"].apply(knot2mps)
 df_10k["IAS_mps"] = df_10k["IAS"].apply(knot2mps)
 df_20k["IAS_mps"] = df_20k["IAS"].apply(knot2mps)
 df_30k["IAS_mps"] = df_30k["IAS"].apply(knot2mps)
 
+df_500["Qc"] = df_500["IAS_mps"].apply(Qc)
 df_10k["Qc"] = df_10k["IAS_mps"].apply(Qc)
 df_20k["Qc"] = df_20k["IAS_mps"].apply(Qc)
 df_30k["Qc"] = df_30k["IAS_mps"].apply(Qc)
 
+df_500["Pa"] = df_500["ASL"].apply(Pa)
 df_10k["Pa"] = df_10k["ASL"].apply(Pa)
 df_20k["Pa"] = df_20k["ASL"].apply(Pa)
 df_30k["Pa"] = df_30k["ASL"].apply(Pa)
 
 # Many functions can accept a dataframe column (Series) and return a column
 
+df_500["Ta"] = isa.airtemp_k(df_500["ASL_m"])
 df_10k["Ta"] = isa.airtemp_k(df_10k["ASL_m"])
 df_20k["Ta"] = isa.airtemp_k(df_20k["ASL_m"])
 df_30k["Ta"] = isa.airtemp_k(df_30k["ASL_m"])
 
 # Use a lambda function on the dataframe for more than one column
 
+df_500["MACH"] = df_500.apply(lambda x: Mach(x["Qc"], x["Pa"]), axis=1)
 df_10k["MACH"] = df_10k.apply(lambda x: Mach(x["Qc"], x["Pa"]), axis=1)
 df_20k["MACH"] = df_20k.apply(lambda x: Mach(x["Qc"], x["Pa"]), axis=1)
 df_30k["MACH"] = df_30k.apply(lambda x: Mach(x["Qc"], x["Pa"]), axis=1)
 
+df_500["TAS_mps"] = df_500.apply(lambda x: TAS(x["MACH"], x["Ta"]), axis=1)
 df_10k["TAS_mps"] = df_10k.apply(lambda x: TAS(x["MACH"], x["Ta"]), axis=1)
 df_20k["TAS_mps"] = df_20k.apply(lambda x: TAS(x["MACH"], x["Ta"]), axis=1)
 df_30k["TAS_mps"] = df_30k.apply(lambda x: TAS(x["MACH"], x["Ta"]), axis=1)
 
+df_500["Eh"] = df_500.apply(lambda x: Eh(x["ASL_m"], x["TAS_mps"]), axis=1)
 df_10k["Eh"] = df_10k.apply(lambda x: Eh(x["ASL_m"], x["TAS_mps"]), axis=1)
 df_20k["Eh"] = df_20k.apply(lambda x: Eh(x["ASL_m"], x["TAS_mps"]), axis=1)
 df_30k["Eh"] = df_30k.apply(lambda x: Eh(x["ASL_m"], x["TAS_mps"]), axis=1)
 
-df_10k["Ps"] = savgol_filter(np.gradient(df_10k["Eh"], df_10k["Time"]), 101, 2)
-df_20k["Ps"] = savgol_filter(np.gradient(df_20k["Eh"], df_20k["Time"]), 101, 2)
-df_30k["Ps"] = savgol_filter(np.gradient(df_30k["Eh"], df_30k["Time"]), 101, 2)
+df_500["Ps"] = savgol_filter(
+    np.gradient(df_500["Eh"], df_500["Time"]), len(df_500) // 5, 2
+)
+df_10k["Ps"] = savgol_filter(
+    np.gradient(df_10k["Eh"], df_10k["Time"]), len(df_10k) // 5, 2
+)
+df_20k["Ps"] = savgol_filter(
+    np.gradient(df_20k["Eh"], df_20k["Time"]), len(df_20k) // 5, 2
+)
+df_30k["Ps"] = savgol_filter(
+    np.gradient(df_30k["Eh"], df_30k["Time"]), len(df_30k) // 5, 2
+)
 
 
 # =============================================================================
 # Standard Day Correction
 # =============================================================================
 
+df_500["Vtstd"] = df_500.apply(
+    lambda x: Vtstd(x["TAS_mps"], x["Ta"], Ta_std_ssl), axis=1
+)
 df_10k["Vtstd"] = df_10k.apply(
     lambda x: Vtstd(x["TAS_mps"], x["Ta"], Ta_std_ssl), axis=1
 )
@@ -297,10 +310,14 @@ df_30k["Vtstd"] = df_30k.apply(
     lambda x: Vtstd(x["TAS_mps"], x["Ta"], Ta_std_ssl), axis=1
 )
 
+df_500["ROC"] = np.gradient(df_500["ASL_m"], df_500["Time"])
 df_10k["ROC"] = np.gradient(df_10k["ASL_m"], df_10k["Time"])
 df_20k["ROC"] = np.gradient(df_20k["ASL_m"], df_20k["Time"])
 df_30k["ROC"] = np.gradient(df_30k["ASL_m"], df_30k["Time"])
 
+df_500["cl_ang_test"] = df_500.apply(
+    lambda x: climb_angle(x["ROC"], x["TAS"]), axis=1
+)
 df_10k["cl_ang_test"] = df_10k.apply(
     lambda x: climb_angle(x["ROC"], x["TAS"]), axis=1
 )
@@ -311,14 +328,28 @@ df_30k["cl_ang_test"] = df_30k.apply(
     lambda x: climb_angle(x["ROC"], x["TAS"]), axis=1
 )
 
+df_500["CCF"] = CCF(df_500["Vtstd"], df_500["ASL_m"])
 df_10k["CCF"] = CCF(df_10k["Vtstd"], df_10k["ASL_m"])
 df_20k["CCF"] = CCF(df_20k["Vtstd"], df_20k["ASL_m"])
 df_30k["CCF"] = CCF(df_30k["Vtstd"], df_30k["ASL_m"])
 
+df_500["Wtest"] = EmpWt + df_500["fuel"]
 df_10k["Wtest"] = EmpWt + df_10k["fuel"]
 df_20k["Wtest"] = EmpWt + df_20k["fuel"]
 df_30k["Wtest"] = EmpWt + df_30k["fuel"]
 
+df_500["Ps_std"] = df_500.apply(
+    lambda x: Psstd(
+        x["Ps"],
+        x["Wtest"],
+        Wstd,
+        x["TAS_mps"],
+        x["Vtstd"],
+        delThrust,
+        delDrag,
+    ),
+    axis=1,
+)
 df_10k["Ps_std"] = df_10k.apply(
     lambda x: Psstd(
         x["Ps"],
@@ -356,6 +387,14 @@ df_30k["Ps_std"] = df_30k.apply(
     axis=1,
 )
 
+df_500["cl_ang_std"] = df_500.apply(
+    lambda x: climb_angle_std(
+        x["Ps_std"],
+        x["CCF"],
+        x["Vtstd"],
+    ),
+    axis=1,
+)
 df_10k["cl_ang_std"] = df_10k.apply(
     lambda x: climb_angle_std(
         x["Ps_std"],
@@ -384,6 +423,19 @@ df_30k["cl_ang_std"] = df_30k.apply(
 # =============================================================================
 # End of calculations
 # begining of visualisation
+# =============================================================================
+
+f0 = plt.figure()
+plt.plot(df_500["MACH"], df_500["Ps"])
+plt.grid()
+plt.xlabel("Mach")
+plt.ylabel("Sp Excess Power")
+plt.legend(["500ft"])
+plt.title("Specific Excess Power Variation with Mach (DCS:F16")
+plt.savefig("Ps_500ft.png", dpi=300)
+
+# =============================================================================
+#
 # =============================================================================
 
 f1 = plt.figure()
@@ -426,13 +478,14 @@ plt.savefig("Ps_30kft.png", dpi=300)
 # =============================================================================
 
 f4 = plt.figure()
+plt.plot(df_500["MACH"], df_500["Ps"])
 plt.plot(df_10k["MACH"], df_10k["Ps"])
 plt.plot(df_20k["MACH"], df_20k["Ps"])
 plt.plot(df_30k["MACH"], df_30k["Ps"])
 plt.grid()
 plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
-plt.legend(["10kft", "20kft", "30kft"])
+plt.legend(["500ft", "10kft", "20kft", "30kft"])
 plt.title("Variation of Specific Excess Power with Altitude (DCS:F16")
 plt.savefig("Ps_Altitude.png", dpi=300)
 
@@ -441,15 +494,16 @@ plt.savefig("Ps_Altitude.png", dpi=300)
 # =============================================================================
 
 f5 = plt.figure()
+plt.plot(df_500["MACH"], df_500["Ps_std"], "--")
 plt.plot(df_10k["MACH"], df_10k["Ps_std"], "--")
 plt.plot(df_20k["MACH"], df_20k["Ps_std"], "--")
 plt.plot(df_30k["MACH"], df_30k["Ps_std"], "--")
 plt.grid()
 plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
-plt.legend(["10kft", "20kft", "30kft"])
+plt.legend(["500ft", "10kft", "20kft", "30kft"])
 plt.title("Variation of Standard SEP  with Altitude (DCS:F16")
-plt.savefig("Standard_SEP_Altitude.png", dpi=300)
+plt.savefig("Standard_Ps_Altitude.png", dpi=300)
 
 # =============================================================================
 #
