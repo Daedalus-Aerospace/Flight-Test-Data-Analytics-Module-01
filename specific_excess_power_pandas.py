@@ -223,10 +223,10 @@ def climb_angle_std(
 # =============================================================================
 
 # select the rows of 1st Level Accel and store in a new data frame
-df_500 = pd.read_excel("level_accel_500_clean.xlsx")
-df_10k = pd.read_excel("level_accel_10k_clean.xlsx")
-df_20k = pd.read_excel("level_accel_20k_clean.xlsx")
-df_30k = pd.read_excel("level_accel_30k_clean.xlsx")
+df_500 = pd.read_excel("./data/level_accel_500_clean.xlsx")
+df_10k = pd.read_excel("./data/level_accel_10k_clean.xlsx")
+df_20k = pd.read_excel("./data/level_accel_20k_clean.xlsx")
+df_30k = pd.read_excel("./data/level_accel_30k_clean.xlsx")
 
 # =============================================================================
 # Compute the SEP from CAS and Altitude
@@ -432,7 +432,7 @@ plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
 plt.legend(["500ft"])
 plt.title("Specific Excess Power Variation with Mach (DCS:F16")
-plt.savefig("Ps_500ft.png", dpi=300)
+plt.savefig("./plots/Ps_500ft.png", dpi=300)
 
 # =============================================================================
 #
@@ -445,7 +445,7 @@ plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
 plt.legend(["10kft"])
 plt.title("Specific Excess Power Variation with Mach (DCS:F16")
-plt.savefig("Ps_10kft.png", dpi=300)
+plt.savefig("./plots/Ps_10kft.png", dpi=300)
 
 # =============================================================================
 #
@@ -458,7 +458,7 @@ plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
 plt.legend(["20kft"])
 plt.title("Specific Excess Power Variation with Mach (DCS:F16")
-plt.savefig("Ps_20kft.png", dpi=300)
+plt.savefig("./plots/Ps_20kft.png", dpi=300)
 
 # =============================================================================
 #
@@ -471,7 +471,7 @@ plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
 plt.legend(["30kft"])
 plt.title("Specific Excess Power Variation with Mach (DCS:F16")
-plt.savefig("Ps_30kft.png", dpi=300)
+plt.savefig("./plots/Ps_30kft.png", dpi=300)
 
 # =============================================================================
 #
@@ -487,7 +487,7 @@ plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
 plt.legend(["500ft", "10kft", "20kft", "30kft"])
 plt.title("Variation of Specific Excess Power with Altitude (DCS:F16")
-plt.savefig("Ps_Altitude.png", dpi=300)
+plt.savefig("./plots/Ps_Altitude.png", dpi=300)
 
 # =============================================================================
 #
@@ -503,7 +503,7 @@ plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
 plt.legend(["500ft", "10kft", "20kft", "30kft"])
 plt.title("Variation of Standard SEP  with Altitude (DCS:F16")
-plt.savefig("Standard_Ps_Altitude.png", dpi=300)
+plt.savefig("./plots/Standard_Ps_Altitude.png", dpi=300)
 
 # =============================================================================
 #
@@ -517,4 +517,4 @@ plt.xlabel("Mach")
 plt.ylabel("Sp Excess Power")
 plt.legend(["Ps_test", "Ps_std"])
 plt.title("Comparison of Ps Std and Ps Test,Alt:10kft(DCS:F16)")
-plt.savefig("Comparison_Ps_Std_Ps_Test_10kft.png", dpi=300)
+plt.savefig("./plots/Comparison_Ps_Std_Ps_Test_10kft.png", dpi=300)
