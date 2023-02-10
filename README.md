@@ -24,4 +24,5 @@ To import the environment and open the Spyder IDE, you have two ways of doing so
     2. In the terminal, navigate to the folder Flight-Test-Data-Analytics-Module-01
     3. Type `conda env create -f environment.yml` and hit Enter
     4. Agree to changes
-    5. Once installation is complete, type `spyder` and hit Enter
+    5. Once installation is complete, type `conda activate ftda_m01`
+    6. Type `spyder` and hit Enter
