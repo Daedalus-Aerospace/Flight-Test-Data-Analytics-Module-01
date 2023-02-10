@@ -14,7 +14,7 @@ from scipy.signal import savgol_filter
 
 # =============================================================================
 # ADRpy module
-# pip install ADRPy module
+# pip install ADRPy
 # =============================================================================
 
 from ADRpy import atmospheres as at

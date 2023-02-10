@@ -79,7 +79,7 @@ TAS_mps = [x * 0.5144 for x in TAS_kt_list]
 # define a function
 def kt2mps(x):
     """Convert airspeed from knots to meters per second."""
-    return x * 0.5144
+    return x * 1852 / 3600
 
 
 kt2mps(TAS_kt_list)
@@ -87,14 +87,14 @@ TAS_mps = [kt2mps(x) for x in TAS_kt_list]
 
 import pandas as pd
 
-df = pd.DataFrame(TAS_kt_list, columns="TAS(kt)")
+df = pd.DataFrame(TAS_kt_list, columns=["TAS(kt)"])
 df["TAS_mps"] = df[["TAS(kt)"]].apply(kt2mps)
 
 
-df.to_excel("TAS_Conv.xlsx")
-df.to_excel("TAS_Conv.xlsx", index=False)
+df.to_excel("./data/TAS_Conv.xlsx")
+df.to_excel("./data/TAS_Conv.xlsx", index=False)
 
-df1 = pd.read_excel("TAS_Conv.xlsx")
+df1 = pd.read_excel("./data/TAS_Conv.xlsx")
 
 
 # Tuple
