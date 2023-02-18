@@ -422,7 +422,7 @@ df_30k["cl_ang_std"] = df_30k.apply(
 
 # =============================================================================
 # End of calculations
-# begining of visualisation
+# beginning of visualization
 # =============================================================================
 
 f0 = plt.figure()
