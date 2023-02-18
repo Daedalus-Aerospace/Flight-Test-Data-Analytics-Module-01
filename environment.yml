@@ -7,6 +7,7 @@ dependencies:
   - pandas=1.5.2
   - matplotlib=3.6.2
   - scipy=1.9.3
+  - openpyxl=3.0.10
   - spyder
   - pip:
       - adrpy==0.2.5

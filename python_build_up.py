@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Feb  4 07:07:31 2023
+Daedalus Aerospace
+This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+https://creativecommons.org/licenses/by-sa/4.0/
 
-@author: user
+Intentional errors are introduced in this build-up file for pedagogical purposes
 """
 
 # Python data types and assignment

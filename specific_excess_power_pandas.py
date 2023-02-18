@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan 16 22:38:50 2023
-
-@author: data-scientist
+Daedalus Aerospace
+This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License
+https://creativecommons.org/licenses/by-sa/4.0/
 """
 
 import math
