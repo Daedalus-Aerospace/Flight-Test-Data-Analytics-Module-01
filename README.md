@@ -1,5 +1,9 @@
 # Flight-Test-Data-Analytics-Module-01
 
+[![Flight Test Data Analytics](./images/ftda-banner.png)](https://www.daedalusaero.space/enroll/2163859?et=free)
+
+This repository supports Module 01 of the [Daedalus Aerospace Flight Test Data Analytics course](https://www.daedalusaero.space/courses/flight-test-data-analytics).
+
 ## Code
 
 Code is available here at <https://github.com/Daedalus-Aerospace/Flight-Test-Data-Analytics-Module-01>
