@@ -4,6 +4,10 @@
 
 This repository supports Module 01 of the [Daedalus Aerospace Flight Test Data Analytics course](https://www.daedalusaero.space/courses/flight-test-data-analytics).
 
+## Feedback
+
+Please use the [GitHub Issues page](https://github.com/Daedalus-Aerospace/Flight-Test-Data-Analytics-Module-01/issues) to provide feedback.
+
 ## Code
 
 Code is available here at <https://github.com/Daedalus-Aerospace/Flight-Test-Data-Analytics-Module-01>
