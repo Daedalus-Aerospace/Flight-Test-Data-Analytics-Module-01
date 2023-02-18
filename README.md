@@ -1,8 +1,32 @@
 # Flight-Test-Data-Analytics-Module-01
 
+## Code
+
+Code is available here at <https://github.com/Daedalus-Aerospace/Flight-Test-Data-Analytics-Module-01>
+
+![Code Options](./images/github-code-options.png)
+
+Click on the `<> Code ▼` button for options
+
+### Download as zip file
+
+- [Download ZIP](https://github.com/Daedalus-Aerospace/Flight-Test-Data-Analytics-Module-01/archive/refs/heads/main.zip) will provide you a local copy.
+- Save to a convenient location, unzip the file, and run the code from the `Flight-Test-Data-Analytics-Module-01` folder.
+
+### Open with GitHub Desktop
+
+- [GitHub Desktop](https://desktop.github.com/) is a local application that provides a graphical user interface for using `git` and `GitHub`.
+- [Open with GitHub Desktop](x-github-client://openRepo/https://github.com/Daedalus-Aerospace/Flight-Test-Data-Analytics-Module-01) helps automate the local repository cloning process.
+
+### Clone
+
+- For those familiar with `git` and `GitHub` and working with git repositories, the repository may be cloned using HTTPS, SSH, or the [GitHub CLI](https://cli.github.com/) (Command Line Interface)
+
 ## Setup
 
 This course assumes you have installed the Anaconda Distribution, available at <https://www.anaconda.com/products/distribution#Downloads>
+
+Spyder is an integrated development environment (IDE) that comes bundled with the Anaconda Distribution. There is no requirement that Spyder be used to run and explore this code, but Spyder is used during course development and in the course videos.
 
 ### Conda environment and Spyder
 
